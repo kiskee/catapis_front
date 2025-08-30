@@ -1,10 +1,6 @@
 // src/services/catsApi.ts
-import axios, {
-  type InternalAxiosRequestConfig,
-  type AxiosResponse,
-} from "axios";
+import axios, { type AxiosResponse } from "axios";
 
-/** --------- Tipos (ajústalos a tu API real) --------- */
 export interface User {
   id: string;
   email: string;
@@ -20,25 +16,21 @@ export interface Breed {
   id: string;
   name: string;
 
-  // textos
   origin?: string;
   description?: string;
   temperament?: string;
   life_span?: string;
   alt_names?: string;
 
-  // links
   wikipedia_url?: string;
   cfa_url?: string;
   vetstreet_url?: string;
   vcahospitals_url?: string;
 
-  // imagen / peso
   reference_image_id?: string;
   image?: { id?: string; url?: string; width?: number; height?: number };
   weight?: { imperial?: string; metric?: string };
 
-  // flags / escala 0–1
   indoor?: number;
   lap?: number;
   experimental?: number;
@@ -50,7 +42,6 @@ export interface Breed {
   short_legs?: number;
   hypoallergenic?: number;
 
-  // atributos 1–5
   adaptability?: number;
   affection_level?: number;
   child_friendly?: number;
@@ -64,11 +55,10 @@ export interface Breed {
   stranger_friendly?: number;
   vocalisation?: number;
 
-  // misc
   country_codes?: string;
   country_code?: string;
 
-  [k: string]: unknown; // por si aparece algún campo extra
+  [k: string]: unknown;
 }
 
 export interface CatImage {
@@ -80,8 +70,7 @@ export interface CatImage {
   [k: string]: unknown;
 }
 
-/** --------- Storage helper para el token --------- */
-const TOKEN_KEY = "authToken"; // guardaremos { token: string }
+const TOKEN_KEY = "authToken";
 
 export const AuthStorage = {
   set(token: string) {
@@ -102,29 +91,36 @@ export const AuthStorage = {
   },
 };
 
-/** --------- Axios instance con base URL e interceptor --------- */
-
-
 const apiClient = axios.create({
-  baseURL: '/api',
-  headers: { 'Content-Type': 'application/json' },
+  baseURL: "/api",
+  headers: { "Content-Type": "application/json" },
 });
 
-// agrega Authorization: Bearer <token> si existe
-apiClient.interceptors.request.use(
-  (config: InternalAxiosRequestConfig) => {
-    const token = AuthStorage.get();
-    if (token) {
-      config.headers.set("Authorization", `Bearer ${token}`);
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
+apiClient.interceptors.request.use((config) => {
+  const url = config.url ?? "";
+  const isAuthRoute =
+    url.startsWith("/auth/") ||
+    url.includes("/auth/login") ||
+    url.includes("/auth/register");
 
-/** --------- Servicio --------- */
+  if (!isAuthRoute) {
+    const raw = localStorage.getItem("authToken");
+    if (raw) {
+      try {
+        const { token } = JSON.parse(raw) as { token?: string };
+        if (token) config.headers.set("Authorization", `Bearer ${token}`);
+      } catch {}
+    }
+  }
+
+  if (!config.headers.get("Content-Type")) {
+    config.headers.set("Content-Type", "application/json");
+  }
+
+  return config;
+});
+
 const CatsApi = {
-  // ---------- AUTH (público) ----------
   auth: {
     register: async (data: { email: string; password: string }) => {
       const res: AxiosResponse<AuthResponse> = await apiClient.post(
@@ -142,13 +138,12 @@ const CatsApi = {
     },
   },
 
-  // ---------- BREEDS (protegido por JWT) ----------
   breeds: {
     list: async () => {
       const res: AxiosResponse<Breed[]> = await apiClient.get("/breeds");
       return res.data;
     },
-    /** GET /breeds/search?q=sib&attach_image=1 */
+
     search: async (params: { q: string; attach_image?: 0 | 1 }) => {
       const res: AxiosResponse<Breed[]> = await apiClient.get(
         "/breeds/search",
@@ -156,7 +151,7 @@ const CatsApi = {
       );
       return res.data;
     },
-    /** GET /breeds/:breed_id */
+
     byId: async (breed_id: string) => {
       const res: AxiosResponse<Breed> = await apiClient.get(
         `/breeds/${breed_id}`
@@ -165,9 +160,7 @@ const CatsApi = {
     },
   },
 
-  // ---------- IMAGES (protegido por JWT) ----------
   images: {
-    /** GET /imagesbybreedid?breed_id=abys&limit=5&size=med&order=RANDOM&include_breeds=1 */
     byBreed: async (params: {
       breed_id: string;
       limit?: number;

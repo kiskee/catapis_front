@@ -31,7 +31,6 @@ export default function Header() {
     <>
       <header className="bg-stone-50 border-b border-amber-100/70">
         <div className="mx-auto max-w-7xl h-14 px-4 flex items-center justify-between">
-          {/* Brand */}
           <Link
             to={loggedIn ? "/home" : "/"}
             className="flex items-center gap-2"
@@ -43,10 +42,8 @@ export default function Header() {
               Cats API
             </span>
           </Link>
-          {/* Links */}
-          {/* Nav (desktop) */}
+
           <nav className="hidden md:flex items-center gap-2">
-            {/* Breeds */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button className="bg-amber-100 hover:bg-amber-200 text-gray-900">
@@ -76,7 +73,6 @@ export default function Header() {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            {/* Images */}
             <Button
               asChild
               className="bg-amber-100 hover:bg-amber-200 text-gray-900"
@@ -86,7 +82,6 @@ export default function Header() {
               </NavLink>
             </Button>
 
-            {/* Auth */}
             {!loggedIn && (
               <>
                 <Button asChild variant="ghost" className="text-gray-800">
@@ -98,7 +93,7 @@ export default function Header() {
               </>
             )}
           </nav>
-          {/* Right (user + actions) */}
+
           <div className="flex items-center gap-2">
             {loggedIn && (
               <span className="hidden sm:inline text-sm text-gray-600">
@@ -106,7 +101,6 @@ export default function Header() {
               </span>
             )}
 
-            {/* Mobile menu */}
             <div className="md:hidden">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -175,7 +169,6 @@ export default function Header() {
               </DropdownMenu>
             </div>
 
-            {/* Desktop logout */}
             {loggedIn && (
               <Button
                 onClick={handleLogout}

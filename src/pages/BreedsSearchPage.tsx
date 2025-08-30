@@ -38,13 +38,11 @@ export default function BreedsSearchPage() {
     }
   };
 
-  // submit por Enter
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSearch();
   };
 
-  // debounce opcional al escribir (400ms)
   React.useEffect(() => {
     if (!q.trim()) {
       setResults([]);
@@ -52,7 +50,6 @@ export default function BreedsSearchPage() {
     }
     const t = setTimeout(() => onSearch(q), 400);
     return () => clearTimeout(t);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [q, attachImage]);
 
   return (

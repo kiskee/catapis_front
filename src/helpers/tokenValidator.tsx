@@ -5,25 +5,25 @@ interface TokenPayload {
 
 export const isTokenValid = (token: string | null): boolean => {
   if (!token) {
-    return false; // El token no existe
+    return false;
   }
 
   try {
     const [, payload] = token.split(".");
     if (!payload) {
-      return false; // Token mal formado
+      return false;
     }
 
     const decodedPayload: TokenPayload = JSON.parse(atob(payload));
 
-    const currentTime = Math.floor(Date.now() / 1000); // Tiempo actual en segundos
+    const currentTime = Math.floor(Date.now() / 1000);
     if (decodedPayload.exp && decodedPayload.exp < currentTime) {
-      return false; // El token ha expirado
+      return false;
     }
 
-    return true; // El token es válido
+    return true;
   } catch (error) {
     console.error("Error al validar el token:", error);
-    return false; // Cualquier error invalida el token
+    return false;
   }
 };

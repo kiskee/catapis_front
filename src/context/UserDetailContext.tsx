@@ -1,5 +1,11 @@
-
-import { type Dispatch, type SetStateAction, type ReactNode, createContext, useState, useEffect } from "react";
+import {
+  type Dispatch,
+  type SetStateAction,
+  type ReactNode,
+  createContext,
+  useState,
+  useEffect,
+} from "react";
 import { useNavigate } from "react-router-dom";
 
 interface AuthToken {
@@ -9,7 +15,7 @@ interface AuthToken {
 
 export interface UserDetail {
   token: string;
-  [key: string]: any; 
+  [key: string]: any;
 }
 
 interface UserDetailContextType {
@@ -22,9 +28,13 @@ interface UserDetailProviderProps {
   children: ReactNode;
 }
 
-export const UserDetailContext = createContext<UserDetailContextType | undefined>(undefined);
+export const UserDetailContext = createContext<
+  UserDetailContextType | undefined
+>(undefined);
 
-export const UserDetailProvider: React.FC<UserDetailProviderProps> = ({ children }) => {
+export const UserDetailProvider: React.FC<UserDetailProviderProps> = ({
+  children,
+}) => {
   const navigate = useNavigate();
 
   const [userDetail, setUserDetail] = useState<UserDetail | null>(() => {
@@ -57,7 +67,7 @@ export const UserDetailProvider: React.FC<UserDetailProviderProps> = ({ children
         "authToken",
         JSON.stringify({
           token: userDetail.token,
-          expiresAt: Date.now() + 60 * 60 * 1000, // 60 minutos
+          expiresAt: Date.now() + 60 * 60 * 1000,
         })
       );
     } else {

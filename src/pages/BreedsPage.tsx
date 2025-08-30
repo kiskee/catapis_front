@@ -6,7 +6,7 @@ import { Button } from "../components/ui/button";
 import { Loader2 } from "lucide-react";
 import BreedItem from "../components/BreedItem";
 
-const BATCH = 16; // cuántas cards por carga
+const BATCH = 16;
 
 export default function BreedsPage() {
   const [all, setAll] = React.useState<Breed[]>([]);
@@ -55,7 +55,7 @@ export default function BreedsPage() {
   }, [hasMore]);
 
   React.useEffect(() => {
-    if (!hasMore) return; // nada más que cargar
+    if (!hasMore) return;
     const el = loadMoreRef.current;
     if (!el) return;
 
@@ -93,11 +93,9 @@ export default function BreedsPage() {
           </Button>
         </div>
 
-        {/* Estados */}
         {loading && <p className="text-gray-600">Cargando...</p>}
         {error && <p className="text-red-600">{error}</p>}
 
-        {/* Grid */}
         {!loading && !error && (
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
@@ -106,7 +104,6 @@ export default function BreedsPage() {
               ))}
             </div>
 
-            {/* Sentinel para cargar más */}
             <div
               ref={loadMoreRef}
               className="h-10 w-full flex items-center justify-center"

@@ -9,6 +9,8 @@ import IntLayaout from "./components/IntLayaout";
 import Home from "./pages/Home";
 import BreedsPage from "./pages/BreedsPage";
 import BreedsSearchPage from "./pages/BreedsSearchPage";
+import BreedDetailPage from "./pages/BreedDetailPage";
+import ImagesByBreedPage from "./pages/ImagesByBreedPage";
 
 function App() {
   return (
@@ -57,6 +59,30 @@ function App() {
                   element={
                     <IntLayaout>
                       <BreedsSearchPage />
+                    </IntLayaout>
+                  }
+                />
+              }
+            />
+            <Route
+              path="/breeds/:breed_id"
+              element={
+                <ProtectedRoute
+                  element={
+                    <IntLayaout>
+                      <BreedDetailPage  />
+                    </IntLayaout>
+                  }
+                />
+              }
+            />
+              <Route
+              path="/images/by-breed"
+              element={
+                <ProtectedRoute
+                  element={
+                    <IntLayaout>
+                      <ImagesByBreedPage  />
                     </IntLayaout>
                   }
                 />

@@ -10,7 +10,7 @@ const DesprotectedRoute: React.FC<ProtectedRouteProps> = ({ element }) => {
   const token = localStorage.getItem("authToken");
 
   if (isTokenValid(token)) {
-    return <Navigate to="/inicio" replace />;
+    return <Navigate to="/home" replace />;
   }
 
   return element;

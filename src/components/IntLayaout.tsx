@@ -9,7 +9,6 @@ export default function IntLayaout({ children }: LayoutProps) {
   return (
     <>
       <div className="min-h-dvh w-full bg-stone-50 text-gray-800 flex flex-col">
-        {/* Header (si es fixed, agrega pt-14 al <main>) */}
         <Header />
 
         <main className="flex-1 w-full">
@@ -17,8 +16,6 @@ export default function IntLayaout({ children }: LayoutProps) {
             {children}
           </div>
         </main>
-
-        {/* <Footer /> */}
       </div>
     </>
   );

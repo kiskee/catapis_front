@@ -2,10 +2,6 @@ import type { Breed } from "../services/catsApi";
 import { Button } from "./ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 
-/**
- * Componente simple para mostrar una raza
- * Guardar como: src/components/BreedCard.tsx
- */
 export default function BreedCard({ breed }: { breed: Breed }) {
   const img = breed.image?.url;
 

@@ -29,7 +29,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [success, ] = useState<string | null>(null);
+  const [success] = useState<string | null>(null);
 
   const canSubmit = email.trim() !== "" && password.length >= 6 && !loading;
   const handleSubmit = async (e: React.FormEvent) => {
@@ -43,9 +43,9 @@ export default function Login() {
         email,
         password,
       });
-      // Guardamos en el contexto. Tu provider se encarga de persistir y setear expiresAt en localStorage.
+
       setUserDetail({ token: accessToken, ...user });
-      // Redirige a una ruta protegida (ajusta si quieres otra)
+
       navigate("/home", { replace: true });
     } catch (err) {
       const ax = err as AxiosError<any>;
@@ -141,7 +141,7 @@ export default function Login() {
             <p className="text-xs text-gray-600">
               ¿No tienes cuenta?
               <a
-                href="#"
+                href="/register"
                 className="ml-1 underline text-gray-800 hover:text-gray-900"
               >
                 Regístrate
