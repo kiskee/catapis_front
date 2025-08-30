@@ -33,7 +33,7 @@ export default function Header() {
         <div className="mx-auto max-w-7xl h-14 px-4 flex items-center justify-between">
           {/* Brand */}
           <Link
-            to={loggedIn ? "/breeds" : "/"}
+            to={loggedIn ? "/home" : "/"}
             className="flex items-center gap-2"
           >
             <span className="inline-flex items-center justify-center rounded-full bg-yellow-600/10 p-2">

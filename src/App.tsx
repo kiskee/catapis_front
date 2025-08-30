@@ -8,6 +8,7 @@ import ProtectedRoute from "./components/utils/ProtectedRoute";
 import IntLayaout from "./components/IntLayaout";
 import Home from "./pages/Home";
 import BreedsPage from "./pages/BreedsPage";
+import BreedsSearchPage from "./pages/BreedsSearchPage";
 
 function App() {
   return (
@@ -44,6 +45,18 @@ function App() {
                   element={
                     <IntLayaout>
                       <BreedsPage />
+                    </IntLayaout>
+                  }
+                />
+              }
+            />
+            <Route
+              path="/breeds/search"
+              element={
+                <ProtectedRoute
+                  element={
+                    <IntLayaout>
+                      <BreedsSearchPage />
                     </IntLayaout>
                   }
                 />
